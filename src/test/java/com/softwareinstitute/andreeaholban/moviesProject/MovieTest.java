@@ -19,4 +19,11 @@ public class MovieTest {
         movie.setTitle("Harry Potter");
         assertEquals("Harry Potter", movie.getTitle(), "Set wrong title");
     }
+
+    @Test
+    public void testGetJasonObject(){
+        Movie movie = new Movie("Lord of the rings");
+        String json = movie.getJasonObjectOfMovie();
+        assertEquals("{\"title\" : \"Lord of the rings\"}", json, "Generated wrong jason file");
+    }
 }
