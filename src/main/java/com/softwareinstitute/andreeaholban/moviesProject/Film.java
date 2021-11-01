@@ -1,25 +1,47 @@
 package com.softwareinstitute.andreeaholban.moviesProject;
 
-public class Movie {
+import javax.persistence.*;
+
+@Entity
+@Table(name = "film")
+public class Film {
 
     ///////////////////////////////////////////Attributes//////////////////////////////////////////////////////////////////////
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer film_id;
+
     private String title;
-    private double rating;
+    private double star_rating;
     private int length;
 
 
     ///////////////////////////////////////////Constructors////////////////////////////////////////////////////////////////////
-    public Movie(String title){
+    public Film(String title){
         this.title = title;
     }
 
-    public Movie(String title, int length){
+    public Film(String title, int length){
         this.title = title;
         this.length = length;
     }
 
+    public Film(){
+
+    }
+
     //////////////////////////////////////////////Methods/////////////////////////////////////////////////////////////////////
 
+
+    public Integer getId() {
+        return film_id;
+    }
+
+    public void setId(Integer id) {
+        this.film_id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -29,12 +51,12 @@ public class Movie {
         this.title = title;
     }
 
-    public double getRating() {
-        return rating;
+    public double getStar_rating() {
+        return star_rating;
     }
 
-    public void setRating(double rating) {
-        this.rating = rating;
+    public void setStar_rating(double rating) {
+        this.star_rating = rating;
     }
 
     public int getLength() {
@@ -45,9 +67,4 @@ public class Movie {
         this.length = length;
     }
 
-    public String getJasonObjectOfMovie(){
-        return  "{"+
-                "\"title\" : \"" + title + "\"" +
-                "}";
-    }
 }
