@@ -3,10 +3,7 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -24,6 +21,17 @@ public class MoviesProjectApplication {
 	public @ResponseBody
 	Iterable<Film> getAllUsers() {
 		return movieRepository.findAll();
+	}
+
+	@PostMapping("/addMovie")
+	public @ResponseBody String addAMovie (@RequestParam String title
+			, @RequestParam int length) {
+
+
+		Film savedMovie = new Film(title, length);
+		movieRepository.save(savedMovie);
+		return "Saved";
+
 	}
 
 }

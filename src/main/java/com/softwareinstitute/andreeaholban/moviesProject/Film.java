@@ -3,6 +3,7 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import javax.persistence.*;
 
 @Entity
+@SequenceGenerator(name="seq", initialValue=1001, allocationSize=100)
 @Table(name = "film")
 public class Film {
 
@@ -10,12 +11,13 @@ public class Film {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Integer film_id;
 
     private String title;
     private double star_rating;
     private int length;
+    private int language_id = 1;
 
 
     ///////////////////////////////////////////Constructors////////////////////////////////////////////////////////////////////
@@ -35,11 +37,11 @@ public class Film {
     //////////////////////////////////////////////Methods/////////////////////////////////////////////////////////////////////
 
 
-    public Integer getId() {
+    public Integer getFilm_id() {
         return film_id;
     }
 
-    public void setId(Integer id) {
+    public void setFilm_id(Integer id) {
         this.film_id = id;
     }
 
@@ -67,4 +69,11 @@ public class Film {
         this.length = length;
     }
 
+    public int getLanguage_id() {
+        return language_id;
+    }
+
+    public void setLanguage_id(int language_id) {
+        this.language_id = language_id;
+    }
 }
