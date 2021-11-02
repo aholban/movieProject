@@ -15,8 +15,10 @@ public class Film {
     private Integer film_id;
 
     private String title;
+    private String description;
     private double star_rating;
     private int length;
+    private String release_year;
     private int language_id = 1;
 
 
@@ -76,4 +78,22 @@ public class Film {
     public void setLanguage_id(int language_id) {
         this.language_id = language_id;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getRelease_year() {
+        return release_year;
+    }
+
+    public void setRelease_year(String release_year) {
+        this.release_year = release_year;
+    }
+
+
 }

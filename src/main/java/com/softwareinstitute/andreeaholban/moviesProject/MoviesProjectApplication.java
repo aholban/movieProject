@@ -8,18 +8,29 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @SpringBootApplication
+@RequestMapping("/movies")
 public class MoviesProjectApplication {
 
 	@Autowired
 	private MovieRepository movieRepository;
 
+	@Autowired
+	private ActorRepository actorRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(MoviesProjectApplication.class, args);
 	}
 
+	@GetMapping("/getActors")
+	public @ResponseBody
+	Iterable<Actor> getAllActors() {
+		return actorRepository.findAll();
+	}
+
 	@GetMapping("/all")
 	public @ResponseBody
-	Iterable<Film> getAllUsers() {
+	Iterable<Film> getAllMovies
+			() {
 		return movieRepository.findAll();
 	}
 
@@ -32,6 +43,14 @@ public class MoviesProjectApplication {
 		movieRepository.save(savedMovie);
 		return "Saved";
 
+	}
+
+	public MovieRepository getMovieRepository() {
+		return movieRepository;
+	}
+
+	public ActorRepository getActorRepository() {
+		return actorRepository;
 	}
 
 }
