@@ -63,7 +63,7 @@ public class MoviesProjectApplication {
 		if(film.isPresent()){
 			message = "Movie already exists";
 		}
-		else{
+		else {
 			Film savedMovie = new Film(title, length);
 			movieRepository.save(savedMovie);
 			message = "Saved";
@@ -94,24 +94,44 @@ public class MoviesProjectApplication {
 	}
 
 	@DeleteMapping("/deleteMovie/{id}")
-	public @ResponseBody String deleteMovie (@PathVariable int id){
-		movieRepository.deleteById(id);
-		return "Deleted";
+	public @ResponseBody String deleteMovie (@PathVariable int id, @RequestParam String username, @RequestParam String password){
+		String message = "";
+		Optional<User> userOptional = login(username, password);
+		if(userOptional.isPresent()){
+			User user = userOptional.get();
+			if(user.getAdmin()) {
+				movieRepository.deleteById(id);
+				message = "Deleted";
+			}
+			else message = "You do not have permission to delete it";
+		}
+		else message = "You are not registered";
+		return message;
 	}
 
 
 	@PostMapping("/updateMovie")
-	public @ResponseBody String updateMovie (@RequestParam int id, @RequestParam String title,
+	public @ResponseBody String updateMovie (@RequestParam String username, @RequestParam String password,
+											 @RequestParam int id, @RequestParam String title,
 											 @RequestParam int length){
+		String message = "";
+		Optional<User> userOptional = login(username, password);
 		Optional<Film> movie = movieRepository.findById(id);
-		if(movie.isPresent()){
-			Film film = movie.get();
-			film.setTitle(title);
-			film.setLength(length);
-			movieRepository.save(film);
-			return "Movie updated";
+		if(movie.isPresent() && userOptional.isPresent()){
+			User user = userOptional.get();
+			if(user.getAdmin()) {
+				Film film = movie.get();
+				film.setTitle(title);
+				film.setLength(length);
+				movieRepository.save(film);
+				message = "Movie updated";
+			}
+			else message = "You do not have permission to update it";
+
 		}
-		return "Movie is not in the database";
+		else if(!movie.isPresent()) message = "Movie is not in the database";
+		else message = "You are not registered";
+		return message;
 	}
 
 	@PostMapping("/searchMovie")
