@@ -3,7 +3,7 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(name="seq", initialValue=1001, allocationSize=100)
+@SequenceGenerator(name="seq", initialValue=1001)
 @Table(name = "film")
 public class Film {
 

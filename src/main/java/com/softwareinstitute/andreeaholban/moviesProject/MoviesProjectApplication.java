@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @SpringBootApplication
@@ -45,12 +47,21 @@ public class MoviesProjectApplication {
 
 	}
 
-	public MovieRepository getMovieRepository() {
-		return movieRepository;
+	@PostMapping("/deleteMovie")
+	public @ResponseBody String deleteMovie (@RequestParam int id){
+		movieRepository.deleteById(id);
+		return "Deleted";
 	}
 
-	public ActorRepository getActorRepository() {
-		return actorRepository;
+	@PostMapping("/updateMovie")
+	public @ResponseBody String updateMovie (@RequestParam int id, @RequestParam String title,
+											 @RequestParam int length){
+		Optional<Film> movie = movieRepository.findById(id);
+		Film film = movie.get();
+		film.setTitle(title);
+		film.setLength(length);
+		movieRepository.save(film);
+		return "Movie updated";
 	}
 
 }
