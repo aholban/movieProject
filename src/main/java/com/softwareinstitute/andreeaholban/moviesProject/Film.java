@@ -17,6 +17,7 @@ public class Film {
     private String title;
     private String description;
     private double star_rating;
+    private int no_ratings;
     private int length;
     private String release_year;
     private int language_id = 1;
@@ -93,6 +94,17 @@ public class Film {
 
     public void setRelease_year(String release_year) {
         this.release_year = release_year;
+    }
+
+    public int getNo_ratings() {
+        return no_ratings;
+    }
+
+
+    public void updateRating(int new_rating){
+        double updatedRating = (star_rating * no_ratings + new_rating)/(no_ratings+1);
+        this.star_rating = updatedRating;
+        this.no_ratings = no_ratings + 1;
     }
 
 

@@ -48,4 +48,48 @@ class FilmTest {
         assertEquals(120, film.getLength(), "Set wrong length");
     }
 
+    @Test
+    void testSetID(){
+        Film film = new Film("Lord of the rings");
+        film.setFilm_id(3000);
+        assertEquals(3000, film.getFilm_id(), "Wrong film ID");
+    }
+
+    @Test
+    void testGetLangID(){
+        Film film = new Film("Lord of the rings");
+        assertEquals(1, film.getLanguage_id(), "Getting wrong language ID");
+    }
+
+    @Test
+    void testSetLangID(){
+        Film film = new Film("Lord of the rings");
+        film.setLanguage_id(2);
+        assertEquals(2, film.getLanguage_id(), "Set the wrong language ID");
+    }
+
+    @Test
+    void testSetDescription(){
+        Film film = new Film("Lord of the rings");
+        film.setDescription("Really cool fantasy movie");
+        assertEquals("Really cool fantasy movie", film.getDescription(), "Wrong film description");
+    }
+
+    @Test
+    void testSetReleaseYear(){
+        Film film = new Film("Lord of the rings");
+        film.setRelease_year("2004");
+        assertEquals("2004", film.getRelease_year(), "Wrong release year");
+    }
+
+    @Test
+    void testUpdateRating(){
+        Film film = new Film("Lord of the rings");
+        film.updateRating(4);
+        assertEquals(4, film.getStar_rating(), "Wrong star rating when it's the first one added");
+        film.updateRating(5);
+        assertEquals(4.5, film.getStar_rating(), "Wrong star rating when two people rated the movie");
+        assertEquals(2, film.getNo_ratings(), "Didn't update number of ratings");
+    }
+
 }
