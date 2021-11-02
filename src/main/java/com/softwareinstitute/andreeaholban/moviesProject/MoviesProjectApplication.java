@@ -58,10 +58,18 @@ public class MoviesProjectApplication {
 	public @ResponseBody String addAMovie (@RequestParam String title
 			, @RequestParam int length) {
 
+		String message = "";
+		Optional<Film> film = movieRepository.findOneByTitle(title);
+		if(film.isPresent()){
+			message = "Movie already exists";
+		}
+		else{
+			Film savedMovie = new Film(title, length);
+			movieRepository.save(savedMovie);
+			message = "Saved";
+		}
 
-		Film savedMovie = new Film(title, length);
-		movieRepository.save(savedMovie);
-		return "Saved";
+		return message;
 
 	}
 
@@ -104,6 +112,17 @@ public class MoviesProjectApplication {
 			return "Movie updated";
 		}
 		return "Movie is not in the database";
+	}
+
+	@PostMapping("/searchMovie")
+	public @ResponseBody Film findMovie(@RequestParam String title){
+		Optional<Film> movieOptional = movieRepository.findOneByTitle(title);
+		if(movieOptional.isPresent()){
+			Film movie = movieOptional.get();
+			return movie;
+		}
+
+		else return null;
 	}
 
 }
