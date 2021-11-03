@@ -4,7 +4,7 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(name="seq", initialValue=201, allocationSize=100)
+@SequenceGenerator(name="seq", initialValue=201)
 @Table(name = "actor")
 public class Actor {
     /////////////////////////////////////////////////Attributes////////////////////////////////////////////////////////////////

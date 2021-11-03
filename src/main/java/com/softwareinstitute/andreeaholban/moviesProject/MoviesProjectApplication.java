@@ -3,10 +3,10 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -28,7 +28,6 @@ public class MoviesProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MoviesProjectApplication.class, args);
 	}
-
 
 	public Optional<User> login(String username, String password){
 		return userRepository.findOneByUsernameAndPassword(username, password);
