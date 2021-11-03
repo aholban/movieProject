@@ -101,7 +101,7 @@ public class Film {
     }
 
 
-    public void updateRating(int new_rating){
+    public void updateRating(double new_rating){
         double updatedRating = (star_rating * no_ratings + new_rating)/(no_ratings+1);
         this.star_rating = updatedRating;
         this.no_ratings = no_ratings + 1;

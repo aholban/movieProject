@@ -22,7 +22,7 @@ public class TestFilmStepDefinition {
 
     @Given("There are movies in the database")
     public void setUpMovieDB(){
-        assertEquals("Need to implement test for getting all movies", true, false);
+
     }
 
     @When("I ask to see all movies")

@@ -31,13 +31,13 @@ public class MoviesProjectApplication {
 
 
 	public Optional<User> login(String username, String password){
-		Optional<User> found = userRepository.findOneByUsernameAndPassword(username, password);
-		return found;
+		return userRepository.findOneByUsernameAndPassword(username, password);
+
 	}
 
 	public Optional<User> findUser(String username){
-		Optional<User> found = userRepository.findOneByUsername(username);
-		return found;
+		return userRepository.findOneByUsername(username);
+
 	}
 
 
@@ -73,6 +73,20 @@ public class MoviesProjectApplication {
 
 	}
 
+	@PostMapping("rateMovie/{title}")
+	public @ResponseBody String rateMovie(@PathVariable("title") String title, @RequestParam double rating){
+		String message = "";
+		Optional<Film> movieOptional = movieRepository.findOneByTitle(title);
+		if(movieOptional.isPresent()){
+			Film movie = movieOptional.get();
+			movie.updateRating(rating);
+			movieRepository.save(movie);
+			message = "Star rating updated";
+		}
+		else message = "Movie not found";
+		return message;
+	}
+
 	@PostMapping("/createUser")
 	public @ResponseBody String createUser(@RequestParam String username, @RequestParam String password){
 		User user = new User(username, password);
@@ -84,13 +98,15 @@ public class MoviesProjectApplication {
 	public @ResponseBody String makeAdmin(@RequestParam String currentUser, @RequestParam String password, @RequestParam String toUser){
 		Optional<User> userOptional = login(currentUser, password);
 		Optional<User> newAdminOptional = findUser(toUser);
+		String message = "";
 		if(newAdminOptional.isPresent() && userOptional.isPresent()){
 			User newAdmin = newAdminOptional.get();
 			User user = userOptional.get();
-			user.givePrivileges(newAdmin);
+			message = user.givePrivileges(newAdmin);
 			userRepository.save(newAdmin);
 		}
-		return "Set new privileges";
+		else message = "Username not recognized";
+		return message;
 	}
 
 	@DeleteMapping("/deleteMovie/{id}")
@@ -138,8 +154,8 @@ public class MoviesProjectApplication {
 	public @ResponseBody Film findMovie(@RequestParam String title){
 		Optional<Film> movieOptional = movieRepository.findOneByTitle(title);
 		if(movieOptional.isPresent()){
-			Film movie = movieOptional.get();
-			return movie;
+			return movieOptional.get();
+
 		}
 
 		else return null;
