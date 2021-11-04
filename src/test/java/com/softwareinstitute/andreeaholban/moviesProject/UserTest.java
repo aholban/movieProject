@@ -3,52 +3,62 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class UserTest {
+class UserTest {
+
 
     @Test
-    public void testGetUsername(){
+    void testDefaultConstructor(){
+        User user = new User();
+        assertNull(user.getUsername());
+        assertNull(user.getPassword());
+        assertEquals(Boolean.FALSE, user.getAdmin());
+    }
+
+    @Test
+    void testGetUsername(){
         User user = new User("madhatter", "alice");
         String username = user.getUsername();
         assertEquals("madhatter", username, "Getting wrong username");
     }
 
     @Test
-    public void testSetUsername(){
+    void testSetUsername(){
         User user = new User("madhatter", "alice");
         user.setUsername("wonderland");
         assertEquals("wonderland", user.getUsername(), "Setting wrong username");
     }
 
     @Test
-    public void testGetPassword(){
+    void testGetPassword(){
         User user = new User("madhatter", "alice");
         String password = user.getPassword();
         assertEquals("alice", password, "Getting wrong password");
     }
 
     @Test
-    public void testSetPassword(){
+    void testSetPassword(){
         User user = new User("madhatter", "alice");
         user.setPassword("wonderland");
         assertEquals("wonderland", user.getPassword(), "Setting wrong password");
     }
 
     @Test
-    public void testGetAdmin(){
+    void testGetAdmin(){
         User user = new User("madhatter", "alice");
         assertEquals(Boolean.FALSE, user.getAdmin(), "Getting wrong admin privileges");
     }
 
     @Test
-    public void testSetAdmin(){
+    void testSetAdmin(){
         User user = new User("madhatter", "alice");
         user.setAdmin(Boolean.TRUE);
         assertEquals(Boolean.TRUE, user.getAdmin(), "Setting wrong admin privileges");
     }
 
     @Test
-    public void testGivePrivileges(){
+    void testGivePrivileges(){
         User user = new User("madhatter", "alice");
         User admin = new User("admin", "1234");
         String message = admin.givePrivileges(user);

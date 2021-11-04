@@ -3,8 +3,21 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FilmTest {
+
+    @Test
+    void testDefaultConstructor(){
+        Film film = new Film();
+        assertNull(film.getTitle());
+        assertNull(film.getDescription());
+        assertNull(film.getRelease_year());
+        assertEquals(0, film.getLength());
+        assertEquals(0, film.getNo_ratings());
+        assertEquals(0, film.getStar_rating());
+        assertEquals(1, film.getLanguage_id());
+    }
 
     @Test
     void testGetTitle(){
