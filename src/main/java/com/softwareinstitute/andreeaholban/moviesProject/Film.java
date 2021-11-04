@@ -1,6 +1,7 @@
 package com.softwareinstitute.andreeaholban.moviesProject;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @SequenceGenerator(name="seq", initialValue=1001)
@@ -22,6 +23,12 @@ public class Film {
     private String release_year;
     private int language_id = 1;
 
+    @ManyToMany
+    @JoinTable(
+            name = "film_actor",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id"))
+    Set<Actor> actorsInMovie;
 
     ///////////////////////////////////////////Constructors////////////////////////////////////////////////////////////////////
     public Film(String title){

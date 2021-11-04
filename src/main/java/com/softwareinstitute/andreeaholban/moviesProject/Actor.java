@@ -2,6 +2,7 @@ package com.softwareinstitute.andreeaholban.moviesProject;
 
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @SequenceGenerator(name="seq", initialValue=201)
@@ -14,6 +15,9 @@ public class Actor {
 
     private String first_name;
     private String last_name;
+
+    @ManyToMany(mappedBy = "actorsInMovie")
+    Set<Film> movies;
 
     /////////////////////////////////////////////////Constructors//////////////////////////////////////////////////////////////
     public Actor(){

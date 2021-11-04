@@ -160,4 +160,9 @@ public class MoviesProjectApplication {
 		else return null;
 	}
 
+	@PostMapping("/getActorsForMovie/{title}")
+	public @ResponseBody Iterable<Actor> getActorsForMovie(@PathVariable String title){
+		return movieRepository.findOneByTitle(title).get().actorsInMovie;
+	}
+
 }
