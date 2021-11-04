@@ -25,6 +25,11 @@ public class Genre {
 
     }
 
+    public Genre(int ID, String name){
+        this.genreID = ID;
+        this.name = name;
+    }
+
     ////////////////////////////////////////////Methods///////////////////////////////////////////////////////////////////////
 
 

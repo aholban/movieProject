@@ -165,7 +165,9 @@ public class MoviesProjectApplication {
 
 	@GetMapping("/getActorsForMovie/{title}")
 	public @ResponseBody Iterable<Actor> getActorsForMovie(@PathVariable String title){
-		return movieRepository.findOneByTitle(title).get().actorsInMovie;
+		Optional<Film> movie = movieRepository.findOneByTitle(title);
+		if(movie.isPresent()) return movie.get().actorsInMovie;
+		else return null;
 	}
 
 	@GetMapping("/getAllGenres")
@@ -175,12 +177,14 @@ public class MoviesProjectApplication {
 
 	@GetMapping("/getMoviesByGenre/{name}")
 	public @ResponseBody Iterable<Film> getMoviesByGenre(@PathVariable String name){
-		return genreRepository.findOneByName(name).get().moviesInGenre;
+		Optional<Genre> genre = genreRepository.findOneByName(name);
+		return genre.<Iterable<Film>>map(value -> value.moviesInGenre).orElse(null);
 	}
 
 	@GetMapping("/getGenresOfMovie/{title}")
 	public @ResponseBody Iterable<Genre> getGenresOfMovie(@PathVariable String title){
-		return movieRepository.findOneByTitle(title).get().genres;
+		Optional<Film> movie = movieRepository.findOneByTitle(title);
+		return movie.<Iterable<Genre>>map(film -> film.genres).orElse(null);
 	}
 
 }
