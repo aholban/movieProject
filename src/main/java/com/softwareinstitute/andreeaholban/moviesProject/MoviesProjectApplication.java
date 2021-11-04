@@ -128,9 +128,10 @@ public class MoviesProjectApplication {
 	}
 
 
-	@PostMapping("/updateMovie")
-	public @ResponseBody String updateMovie (@RequestParam String username, @RequestParam String password,
-											 @RequestParam int id, @RequestParam String title,
+	@PostMapping("/updateMovie/{id}")
+	public @ResponseBody String updateMovie (@PathVariable int id,
+											 @RequestParam String username, @RequestParam String password,
+											 @RequestParam String title,
 											 @RequestParam int length){
 		String message = "";
 		Optional<User> userOptional = login(username, password);

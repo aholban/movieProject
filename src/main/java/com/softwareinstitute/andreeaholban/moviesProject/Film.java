@@ -114,6 +114,10 @@ public class Film {
         return no_ratings;
     }
 
+    public void setNo_ratings(int no_ratings){
+        this.no_ratings = no_ratings;
+    }
+
 
     public void updateRating(double new_rating){
         double updatedRating = (star_rating * no_ratings + new_rating)/(no_ratings+1);

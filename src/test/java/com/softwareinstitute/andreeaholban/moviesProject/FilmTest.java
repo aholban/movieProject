@@ -48,6 +48,19 @@ class FilmTest {
     }
 
     @Test
+    void testGetNoRatings(){
+        Film film = new Film("Lord of the rings");
+        assertEquals(0, film.getNo_ratings(), "Getting wrong number of ratings");
+    }
+
+    @Test
+    void testSetNoRatings(){
+        Film film = new Film("Lord of the rings");
+        film.setNo_ratings(1);
+        assertEquals(1, film.getNo_ratings(), "Setting wrong number of ratings");
+    }
+
+    @Test
     void testGetLength(){
         Film film = new Film("Lord of the rings", 120);
         int movieLength = film.getLength();
