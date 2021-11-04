@@ -30,6 +30,13 @@ public class Film {
             inverseJoinColumns = @JoinColumn(name = "actor_id"))
     Set<Actor> actorsInMovie;
 
+    @ManyToMany
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    Set<Genre> genres;
+
     ///////////////////////////////////////////Constructors////////////////////////////////////////////////////////////////////
     public Film(String title){
         this.title = title;

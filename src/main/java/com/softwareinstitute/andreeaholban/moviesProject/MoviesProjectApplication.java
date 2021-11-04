@@ -24,6 +24,9 @@ public class MoviesProjectApplication {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private GenreRepository genreRepository;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(MoviesProjectApplication.class, args);
@@ -160,9 +163,24 @@ public class MoviesProjectApplication {
 		else return null;
 	}
 
-	@PostMapping("/getActorsForMovie/{title}")
+	@GetMapping("/getActorsForMovie/{title}")
 	public @ResponseBody Iterable<Actor> getActorsForMovie(@PathVariable String title){
 		return movieRepository.findOneByTitle(title).get().actorsInMovie;
+	}
+
+	@GetMapping("/getAllGenres")
+	public @ResponseBody Iterable<Genre> getAllGenres(){
+		return genreRepository.findAll();
+	}
+
+	@GetMapping("/getMoviesByGenre/{name}")
+	public @ResponseBody Iterable<Film> getMoviesByGenre(@PathVariable String name){
+		return genreRepository.findOneByName(name).get().moviesInGenre;
+	}
+
+	@GetMapping("/getGenresOfMovie/{title}")
+	public @ResponseBody Iterable<Genre> getGenresOfMovie(@PathVariable String title){
+		return movieRepository.findOneByTitle(title).get().genres;
 	}
 
 }
