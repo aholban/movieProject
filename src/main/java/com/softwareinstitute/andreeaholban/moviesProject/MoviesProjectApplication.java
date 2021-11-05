@@ -32,16 +32,6 @@ public class MoviesProjectApplication {
 		SpringApplication.run(MoviesProjectApplication.class, args);
 	}
 
-	public Optional<User> login(String username, String password){
-		return userRepository.findOneByUsernameAndPassword(username, password);
-
-	}
-
-	public Optional<User> findUser(String username){
-		return userRepository.findOneByUsername(username);
-
-	}
-
 
 	@GetMapping("/getActors")
 	public @ResponseBody
@@ -98,8 +88,8 @@ public class MoviesProjectApplication {
 
 	@PostMapping("/makeAdmin")
 	public @ResponseBody String makeAdmin(@RequestParam String currentUser, @RequestParam String password, @RequestParam String toUser){
-		Optional<User> userOptional = login(currentUser, password);
-		Optional<User> newAdminOptional = findUser(toUser);
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(currentUser, password);
+		Optional<User> newAdminOptional = userRepository.findOneByUsername(toUser);
 		String message = "";
 		if(newAdminOptional.isPresent() && userOptional.isPresent()){
 			User newAdmin = newAdminOptional.get();
@@ -114,7 +104,7 @@ public class MoviesProjectApplication {
 	@DeleteMapping("/deleteMovie/{id}")
 	public @ResponseBody String deleteMovie (@PathVariable int id, @RequestParam String username, @RequestParam String password){
 		String message = "";
-		Optional<User> userOptional = login(username, password);
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);;
 		if(userOptional.isPresent()){
 			User user = userOptional.get();
 			if(user.getAdmin()) {
@@ -128,13 +118,13 @@ public class MoviesProjectApplication {
 	}
 
 
-	@PostMapping("/updateMovie/{id}")
+	@PatchMapping("/updateMovie/{id}")
 	public @ResponseBody String updateMovie (@PathVariable int id,
 											 @RequestParam String username, @RequestParam String password,
 											 @RequestParam String title,
 											 @RequestParam int length){
 		String message = "";
-		Optional<User> userOptional = login(username, password);
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
 		Optional<Film> movie = movieRepository.findById(id);
 		if(movie.isPresent() && userOptional.isPresent()){
 			User user = userOptional.get();
