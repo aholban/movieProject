@@ -11,7 +11,7 @@
 	<groupId>com.softwareinstitute.andreeaholban</groupId>
 	<artifactId>moviesProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>moviesProject</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -72,6 +72,20 @@
 			<artifactId>cucumber-spring</artifactId>
 			<version>5.6.0</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-secretsmanager</artifactId>
+			<version>1.12.105</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 		</dependency>
 	</dependencies>
 
