@@ -122,6 +122,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<outputDirectory>${basedir}/${target.dir}/classes</outputDirectory>
+		<testOutputDirectory>${basedir}/${target.dir}/test-classes</testOutputDirectory>
+
 	</build>
 
 </project>
