@@ -10,7 +10,7 @@ public class User {
 
     /////////////////////////////////////////////////Attributes/////////////////////////////////////////////////////////////////
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.TABLE)
     private int user_id;
 
     private String username;
