@@ -5,12 +5,12 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@SequenceGenerator(name="seq", initialValue=201)
+// @SequenceGenerator(name="seq", initialValue=201)
 @Table(name = "actor")
 public class Actor {
     /////////////////////////////////////////////////Attributes////////////////////////////////////////////////////////////////
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy=GenerationType.TABLE)
     private int actor_id;
 
     private String first_name;

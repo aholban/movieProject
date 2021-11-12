@@ -27,9 +27,31 @@ public class MoviesProjectApplication {
 	@Autowired
 	private GenreRepository genreRepository;
 
+	private User thisUser;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(MoviesProjectApplication.class, args);
+	}
+
+	@PostMapping("/login")
+	public @ResponseBody String login(@RequestParam String username, @RequestParam String password){
+		String output = "";
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		if(userOptional.isPresent()){
+			thisUser = userOptional.get();
+			output = "Logged in successfully";
+		}
+		else output = "Username and password not recognized";
+
+		return output;
+
+	}
+
+	@GetMapping("/signout")
+	public @ResponseBody String signout(){
+		thisUser = null;
+		return "Signed out";
 	}
 
 
@@ -83,52 +105,49 @@ public class MoviesProjectApplication {
 	public @ResponseBody String createUser(@RequestParam String username, @RequestParam String password){
 		User user = new User(username, password);
 		userRepository.save(user);
+		thisUser = user;
 		return "User saved";
 	}
 
 	@PostMapping("/makeAdmin")
-	public @ResponseBody String makeAdmin(@RequestParam String currentUser, @RequestParam String password, @RequestParam String toUser){
-		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(currentUser, password);
-		Optional<User> newAdminOptional = userRepository.findOneByUsername(toUser);
+	public @ResponseBody String makeAdmin(@RequestParam String user){
+		Optional<User> newAdminOptional = userRepository.findOneByUsername(user);
 		String message = "";
-		if(newAdminOptional.isPresent() && userOptional.isPresent()){
+		if(!newAdminOptional.isPresent()) message = "Username not recognized";
+		else if(thisUser==null) message = "You are not logged in";
+		else {
 			User newAdmin = newAdminOptional.get();
-			User user = userOptional.get();
-			message = user.givePrivileges(newAdmin);
+			message = thisUser.givePrivileges(newAdmin);
 			userRepository.save(newAdmin);
 		}
-		else message = "Username not recognized";
 		return message;
 	}
 
 	@DeleteMapping("/deleteMovie/{id}")
-	public @ResponseBody String deleteMovie (@PathVariable int id, @RequestParam String username, @RequestParam String password){
+	public @ResponseBody String deleteMovie (@PathVariable int id){
 		String message = "";
-		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);;
-		if(userOptional.isPresent()){
-			User user = userOptional.get();
-			if(user.getAdmin()) {
+		if(thisUser!=null){
+			if(thisUser.getAdmin()) {
 				movieRepository.deleteById(id);
 				message = "Deleted";
 			}
 			else message = "You do not have permission to delete it";
 		}
-		else message = "You are not registered";
+		else message = "You are not logged in";
 		return message;
 	}
 
 
 	@PatchMapping("/updateMovie/{id}")
 	public @ResponseBody String updateMovie (@PathVariable int id,
-											 @RequestParam String username, @RequestParam String password,
 											 @RequestParam String title,
 											 @RequestParam int length){
 		String message = "";
-		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
 		Optional<Film> movie = movieRepository.findById(id);
-		if(movie.isPresent() && userOptional.isPresent()){
-			User user = userOptional.get();
-			if(user.getAdmin()) {
+		if(!movie.isPresent()) message = "Movie is not in the database";
+		else if(thisUser==null) message = "You are not logged in";
+		else {
+			if(thisUser.getAdmin()) {
 				Film film = movie.get();
 				film.setTitle(title);
 				film.setLength(length);
@@ -138,8 +157,6 @@ public class MoviesProjectApplication {
 			else message = "You do not have permission to update it";
 
 		}
-		else if(!movie.isPresent()) message = "Movie is not in the database";
-		else message = "You are not registered";
 		return message;
 	}
 

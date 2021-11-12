@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@SequenceGenerator(name="seq", initialValue=1001)
+//@SequenceGenerator(name="seq", initialValue=1001)
 @Table(name = "film")
 public class Film {
 
@@ -12,7 +12,7 @@ public class Film {
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy=GenerationType.TABLE)
     private Integer film_id;
 
     private String title;
