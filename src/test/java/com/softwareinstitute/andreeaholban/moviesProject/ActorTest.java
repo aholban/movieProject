@@ -16,16 +16,16 @@ class ActorTest {
     @Test
     void testGetName(){
         Actor actor = new Actor("Tom", "Holland");
-        String name = actor.getFirst_name() + " " + actor.getLast_name();
+        String name = actor.getFirstName() + " " + actor.getLastName();
         assertEquals("Tom Holland", name, "Wrong actor name");
     }
 
     @Test
     void testSetName(){
         Actor actor = new Actor();
-        actor.setFirst_name("Tom");
-        actor.setLast_name("Holland");
-        String name = actor.getFirst_name() + " " + actor.getLast_name();
+        actor.setFirstName("Tom");
+        actor.setLastName("Holland");
+        String name = actor.getFirstName() + " " + actor.getLastName();
         assertEquals("Tom Holland", name, "Set wrong actor name");
     }
 }

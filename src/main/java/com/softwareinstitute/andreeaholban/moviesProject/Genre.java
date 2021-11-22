@@ -10,7 +10,7 @@ public class Genre {
     ////////////////////////////////////////////Attributes//////////////////////////////////////////////////////////////////
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "category_id")
     private int genreID;
 
@@ -23,6 +23,10 @@ public class Genre {
 
     public Genre(){
 
+    }
+
+    public Genre(String name){
+        this.name = name;
     }
 
     public Genre(int ID, String name){

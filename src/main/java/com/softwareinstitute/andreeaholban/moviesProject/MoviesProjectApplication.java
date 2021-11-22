@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 import java.util.Optional;
 
 
@@ -14,6 +14,7 @@ import java.util.Optional;
 @SpringBootApplication
 @RequestMapping("/movies")
 public class MoviesProjectApplication {
+
 
 	@Autowired
 	private MovieRepository movieRepository;
@@ -39,7 +40,7 @@ public class MoviesProjectApplication {
 		String output = "";
 		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
 		if(userOptional.isPresent()){
-			thisUser = userOptional.get();
+			//thisUser = userOptional.get();
 			output = "Logged in successfully";
 		}
 		else output = "Username and password not recognized";
@@ -69,28 +70,68 @@ public class MoviesProjectApplication {
 	}
 
 	@PostMapping("/addMovie")
-	public @ResponseBody String addAMovie (@RequestParam String title
-			, @RequestParam int length) {
+	public @ResponseBody String addAMovie (@RequestParam String username, @RequestParam String password,
+										   @RequestParam String title, @RequestParam int length) {
 
 		String message = "";
-		Optional<Film> film = movieRepository.findOneByTitle(title);
-		if(film.isPresent()){
-			message = "Movie already exists";
-		}
-		else {
-			Film savedMovie = new Film(title, length);
-			movieRepository.save(savedMovie);
-			message = "Saved";
-		}
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		if(userOptional.isPresent()){
+			if(userOptional.get().getAdmin()) {
+				Film savedMovie = new Film(title, length);
+				movieRepository.save(savedMovie);
+				message = "Saved";
+			}
+			else message ="You are not an admin";
+		}else message = "Please log in first";
 
 		return message;
 
 	}
 
-	@PostMapping("rateMovie/{title}")
-	public @ResponseBody String rateMovie(@PathVariable("title") String title, @RequestParam double rating){
+	@PostMapping("/addGenre")
+	public @ResponseBody String addAGenre (@RequestParam String username, @RequestParam String password,
+										   @RequestParam String name) {
+
 		String message = "";
-		Optional<Film> movieOptional = movieRepository.findOneByTitle(title);
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		Optional<Genre> optionalGenre = genreRepository.findOneByName(name);
+		if(optionalGenre.isPresent()) message="Genre already exists";
+		else if(userOptional.isPresent()){
+			if(userOptional.get().getAdmin()) {
+				Genre savedGenre = new Genre(name);
+				genreRepository.save(savedGenre);
+				message = "Saved";
+			}
+			else message ="You are not an admin";
+		}else message = "Please log in first";
+
+		return message;
+
+	}
+
+	@PostMapping("/addActor")
+	public @ResponseBody String addAnActor (@RequestParam String username, @RequestParam String password,
+										   @RequestParam String first_name, @RequestParam String last_name) {
+
+		String message = "";
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		if(userOptional.isPresent()){
+			if(userOptional.get().getAdmin()) {
+				Actor savedActor = new Actor(first_name, last_name);
+				actorRepository.save(savedActor);
+				message = "Saved";
+			}
+			else message ="You are not an admin";
+		}else message = "Please log in first";
+
+		return message;
+
+	}
+
+	@PostMapping("rateMovie/{id}")
+	public @ResponseBody String rateMovie(@PathVariable int id, @RequestParam double rating){
+		String message = "";
+		Optional<Film> movieOptional = movieRepository.findById(id);
 		if(movieOptional.isPresent()){
 			Film movie = movieOptional.get();
 			movie.updateRating(rating);
@@ -105,7 +146,7 @@ public class MoviesProjectApplication {
 	public @ResponseBody String createUser(@RequestParam String username, @RequestParam String password){
 		User user = new User(username, password);
 		userRepository.save(user);
-		thisUser = user;
+		//thisUser = user;
 		return "User saved";
 	}
 
@@ -123,11 +164,13 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
+	@CrossOrigin(origins = "http://localhost:3000")
 	@DeleteMapping("/deleteMovie/{id}")
-	public @ResponseBody String deleteMovie (@PathVariable int id){
+	public @ResponseBody String deleteMovie (@PathVariable int id, @RequestParam String username, @RequestParam String password){
 		String message = "";
-		if(thisUser!=null){
-			if(thisUser.getAdmin()) {
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		if(userOptional.isPresent()){
+			if(userOptional.get().getAdmin()) {
 				movieRepository.deleteById(id);
 				message = "Deleted";
 			}
@@ -137,17 +180,63 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
+	@CrossOrigin(origins = "http://localhost:3000")
+	@DeleteMapping("/deleteGenre/{id}")
+	public @ResponseBody String deleteGenre (@PathVariable int id, @RequestParam String username, @RequestParam String password){
+		String message = "";
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		if(userOptional.isPresent()){
+			if(userOptional.get().getAdmin()) {
+				Genre genre = genreRepository.findById(id).get();
+				for ( Film movie: genre.moviesInGenre
+				) {
+					movie.genres.remove(genre);
+					movieRepository.save(movie);
+				}
+				genreRepository.deleteById(id);
+				message = "Deleted";
+			}
+			else message = "You do not have permission to delete it";
+		}
+		else message = "You are not logged in";
+		return message;
+	}
 
-	@PatchMapping("/updateMovie/{id}")
+	@CrossOrigin(origins = "http://localhost:3000")
+	@DeleteMapping("/deleteActor/{id}")
+	public @ResponseBody String deleteActor (@PathVariable int id, @RequestParam String username, @RequestParam String password){
+		String message = "";
+		Optional<User> userOptional = userRepository.findOneByUsernameAndPassword(username, password);
+		if(userOptional.isPresent()){
+			if(userOptional.get().getAdmin()) {
+				Actor actor = actorRepository.findById(id).get();
+				for ( Film movie: actor.movies
+					 ) {
+					movie.actorsInMovie.remove(actor);
+					movieRepository.save(movie);
+				}
+				actorRepository.deleteById(id);
+				message = "Deleted";
+			}
+			else message = "You do not have permission to delete it";
+		}
+		else message = "You are not logged in";
+		return message;
+	}
+
+
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PostMapping("/updateMovie/{id}")
 	public @ResponseBody String updateMovie (@PathVariable int id,
-											 @RequestParam String title,
-											 @RequestParam int length){
+											 @RequestParam String username, @RequestParam String password,
+											 @RequestParam String title, @RequestParam int length){
 		String message = "";
 		Optional<Film> movie = movieRepository.findById(id);
+		Optional<User> user = userRepository.findOneByUsernameAndPassword(username, password);
 		if(!movie.isPresent()) message = "Movie is not in the database";
-		else if(thisUser==null) message = "You are not logged in";
+		else if(!user.isPresent()) message = "You are not logged in";
 		else {
-			if(thisUser.getAdmin()) {
+			if(user.get().getAdmin()) {
 				Film film = movie.get();
 				film.setTitle(title);
 				film.setLength(length);
@@ -161,8 +250,14 @@ public class MoviesProjectApplication {
 	}
 
 	@PostMapping("/searchMovie")
-	public @ResponseBody Film findMovie(@RequestParam String title){
-		Optional<Film> movieOptional = movieRepository.findOneByTitle(title);
+	public @ResponseBody Iterable<Film> findMovie(@RequestParam String title){
+		List<Film> movies = movieRepository.findAllByTitleStartsWith(title);
+		return movies;
+	}
+
+	@GetMapping("/getMovie/{id}")
+	public @ResponseBody Film findMovieById(@PathVariable int id){
+		Optional<Film> movieOptional = movieRepository.findById(id);
 		if(movieOptional.isPresent()){
 			return movieOptional.get();
 
@@ -171,9 +266,31 @@ public class MoviesProjectApplication {
 		else return null;
 	}
 
-	@GetMapping("/getActorsForMovie/{title}")
-	public @ResponseBody Iterable<Actor> getActorsForMovie(@PathVariable String title){
-		Optional<Film> movie = movieRepository.findOneByTitle(title);
+	@GetMapping("/getGenre/{id}")
+	public @ResponseBody Genre findGenreById(@PathVariable int id){
+		Optional<Genre> genreOptional = genreRepository.findById(id);
+		if(genreOptional.isPresent()){
+			return genreOptional.get();
+
+		}
+
+		else return null;
+	}
+
+	@GetMapping("/getActor/{id}")
+	public @ResponseBody Actor findActorById(@PathVariable int id){
+		Optional<Actor> actorOptional = actorRepository.findById(id);
+		if(actorOptional.isPresent()){
+			return actorOptional.get();
+
+		}
+
+		else return null;
+	}
+
+	@GetMapping("/getActorsForMovie/{id}")
+	public @ResponseBody Iterable<Actor> getActorsForMovie(@PathVariable int id){
+		Optional<Film> movie = movieRepository.findById(id);
 		if(movie.isPresent()) return movie.get().actorsInMovie;
 		else return null;
 	}
@@ -183,16 +300,68 @@ public class MoviesProjectApplication {
 		return genreRepository.findAll();
 	}
 
-	@GetMapping("/getMoviesByGenre/{name}")
-	public @ResponseBody Iterable<Film> getMoviesByGenre(@PathVariable String name){
-		Optional<Genre> genre = genreRepository.findOneByName(name);
+	@GetMapping("/getMoviesOfActor/{id}")
+	public @ResponseBody Iterable<Film> getMoviesOfActor(@PathVariable int id){
+		Optional<Actor> actor = actorRepository.findById(id);
+		return actor.<Iterable<Film>>map(value -> value.movies).orElse(null);
+	}
+
+	@GetMapping("/getMoviesByGenre/{id}")
+	public @ResponseBody Iterable<Film> getMoviesByGenre(@PathVariable int id){
+		Optional<Genre> genre = genreRepository.findById(id);
 		return genre.<Iterable<Film>>map(value -> value.moviesInGenre).orElse(null);
 	}
 
-	@GetMapping("/getGenresOfMovie/{title}")
-	public @ResponseBody Iterable<Genre> getGenresOfMovie(@PathVariable String title){
-		Optional<Film> movie = movieRepository.findOneByTitle(title);
+	@GetMapping("/getGenresOfMovie/{id}")
+	public @ResponseBody Iterable<Genre> getGenresOfMovie(@PathVariable int id){
+		Optional<Film> movie = movieRepository.findById(id);
 		return movie.<Iterable<Genre>>map(film -> film.genres).orElse(null);
+	}
+
+	@PostMapping("/addGenreToMovie/{id}")
+	public @ResponseBody String addGenreToMovie(@PathVariable int id,
+												@RequestParam String username, @RequestParam String password,
+												@RequestParam String name){
+		Optional<Film> movie = movieRepository.findById(id);
+		Optional<Genre> genre = genreRepository.findOneByName(name);
+		Optional<User> user = userRepository.findOneByUsernameAndPassword(username, password);
+		String message = "";
+		if(!user.isPresent()) message="You are not logged in";
+		else if(!user.get().getAdmin()) message ="You are not admin";
+			else if(!movie.isPresent()) message = "Movie is not in database";
+				else if(!genre.isPresent()) message = "Genre is not in database";
+					else {
+						Film film = movie.get();
+						film.genres.add(genre.get());
+						movieRepository.save(film);
+						message = "Genre added";
+		}
+		return message;
+	}
+
+	@PostMapping("/addActorToMovie/{id}")
+	public @ResponseBody String addGenreToMovie(@PathVariable int id,
+												@RequestParam String username, @RequestParam String password,
+												@RequestParam String first_name, String last_name){
+		Optional<Film> movie = movieRepository.findById(id);
+		Optional<Actor> actorOptional = actorRepository.findOneByFirstNameAndLastName(first_name, last_name);
+		Optional<User> user = userRepository.findOneByUsernameAndPassword(username, password);
+		String message = "";
+		if(!user.isPresent()) message="You are not logged in";
+		else if(!user.get().getAdmin()) message ="You are not admin";
+		else if(!movie.isPresent()) message = "Movie is not in database";
+		else {
+			Actor actor;
+			if (actorOptional.isPresent()) {actor = actorOptional.get();}
+			else {actor = new Actor(first_name, last_name);
+				actorRepository.save(actor);}
+			Film film = movie.get();
+			film.actorsInMovie.add(actor);
+			movieRepository.save(film);
+			message = "Actor added";
+
+		}
+		return message;
 	}
 
 }

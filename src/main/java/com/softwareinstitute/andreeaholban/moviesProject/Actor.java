@@ -13,8 +13,11 @@ public class Actor {
     @GeneratedValue(strategy=GenerationType.TABLE)
     private int actor_id;
 
-    private String first_name;
-    private String last_name;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
 
     @ManyToMany(mappedBy = "actorsInMovie")
     Set<Film> movies;
@@ -25,8 +28,8 @@ public class Actor {
     }
 
     public Actor(String first_name, String last_name){
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
     }
 
     /////////////////////////////////////////////////Methods///////////////////////////////////////////////////////////////////
@@ -40,19 +43,19 @@ public class Actor {
         this.actor_id = actor_id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
