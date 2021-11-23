@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @SpringBootApplication
 @RequestMapping("/movies")
@@ -339,8 +340,32 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
+	@DeleteMapping("/deleteGenreFromMovie/{id}")
+	public @ResponseBody String deleteGenreFromMovie(@PathVariable int id,
+												@RequestParam String username, @RequestParam String password,
+												@RequestParam String name){
+		Optional<Film> movie = movieRepository.findById(id);
+		Optional<Genre> genre = genreRepository.findOneByName(name);
+		Optional<User> user = userRepository.findOneByUsernameAndPassword(username, password);
+		String message = "";
+		if(!user.isPresent()) message="You are not logged in";
+		else if(!user.get().getAdmin()) message ="You are not admin";
+		else if(!movie.isPresent()) message = "Movie is not in database";
+		else if(!genre.isPresent()) message = "Genre is not in the database";
+		else {
+			Film film = movie.get();
+			if(film.genres.contains(genre.get())){
+				film.genres.remove(genre.get());
+				movieRepository.save(film);
+				message = "Genre deleted";
+			}
+			else message = "Genre is not in the movie";
+		}
+		return message;
+	}
+
 	@PostMapping("/addActorToMovie/{id}")
-	public @ResponseBody String addGenreToMovie(@PathVariable int id,
+	public @ResponseBody String addActorToMovie(@PathVariable int id,
 												@RequestParam String username, @RequestParam String password,
 												@RequestParam String first_name, String last_name){
 		Optional<Film> movie = movieRepository.findById(id);
@@ -360,6 +385,33 @@ public class MoviesProjectApplication {
 			movieRepository.save(film);
 			message = "Actor added";
 
+		}
+		return message;
+	}
+
+	@DeleteMapping("/deleteActorFromMovie/{id}")
+	public @ResponseBody String deleteActorFromMovie(@PathVariable int id,
+												@RequestParam String username, @RequestParam String password,
+												@RequestParam String first_name, String last_name){
+		Optional<Film> movie = movieRepository.findById(id);
+		Optional<Actor> actorOptional = actorRepository.findOneByFirstNameAndLastName(first_name, last_name);
+		Optional<User> user = userRepository.findOneByUsernameAndPassword(username, password);
+		String message = "";
+		if(!user.isPresent()) message="You are not logged in";
+		else if(!user.get().getAdmin()) message ="You are not admin";
+		else if(!movie.isPresent()) message = "Movie is not in database";
+		else {
+			if (!actorOptional.isPresent()) {message = "Actor is not in the database";}
+			else {
+
+				Film film = movie.get();
+				if(film.actorsInMovie.contains(actorOptional.get())){
+					film.actorsInMovie.remove(actorOptional.get());
+					movieRepository.save(film);
+					message = "Actor deleted";
+				}
+				else message = "Actor is not in the movie";
+			}
 		}
 		return message;
 	}
