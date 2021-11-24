@@ -54,7 +54,7 @@ public class SeleniumTrialTest {
     driver.findElement(By.name("password")).sendKeys("password");
     driver.findElement(By.cssSelector("input:nth-child(6)")).click();
 
-    //trying to trigger jenkins
+
 
     try {
       WebDriverWait wait = new WebDriverWait(driver, 10);
