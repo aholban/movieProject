@@ -20,11 +20,12 @@ public class ApplicationConfig {
 
     private Gson gson = new Gson();
 
-    @Value("${AWS_ACCESS_KEY}")
+    @Value("${cloud.aws.credentials.access-key}")
+    //@Value("${AWS_ACCESS_KEY}")
     private String accessKey;
 
-   // @Value("${cloud.aws.credentials.secret-key}")
-   @Value("${AWS_SECRET_KEY}")
+    @Value("${cloud.aws.credentials.secret-key}")
+    //@Value("${AWS_SECRET_KEY}")
     private String secretKey;
 
     @Bean
