@@ -22,6 +22,7 @@ public class Film {
     private int length;
     private String release_year;
     private int language_id = 1;
+    private String videoID;
 
     @ManyToMany
     @JoinTable(
@@ -123,6 +124,14 @@ public class Film {
         double updatedRating = (star_rating * no_ratings + new_rating)/(no_ratings+1);
         this.star_rating = updatedRating;
         this.no_ratings = no_ratings + 1;
+    }
+
+    public String getVideoID() {
+        return videoID;
+    }
+
+    public void setVideoID(String videoID) {
+        this.videoID = videoID;
     }
 
 

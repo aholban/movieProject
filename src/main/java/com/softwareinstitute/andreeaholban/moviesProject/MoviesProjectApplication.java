@@ -416,4 +416,24 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
+	@PostMapping("addTrailerToMovie/{id}")
+	public @ResponseBody String addTrailerToMovie(@PathVariable int id,
+												  @RequestParam String username, @RequestParam String password,
+												  @RequestParam String trailerID){
+		Optional<Film> movie = movieRepository.findById(id);
+		Optional<User> user = userRepository.findOneByUsernameAndPassword(username, password);
+		String message = "";
+		if(!user.isPresent()) message="You are not logged in";
+		else if(!user.get().getAdmin()) message ="You are not admin";
+		else if(!movie.isPresent()) message = "Movie is not in database";
+		else{
+			Film film = movie.get();
+			film.setVideoID(trailerID);
+			movieRepository.save(film);
+			message="Trailer added";
+		}
+		return message;
+	}
+
+
 }
