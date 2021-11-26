@@ -40,7 +40,7 @@ public class SeleniumActorTest {
   }
   @Test
   public void seleniumActor() {
-    driver.get("http://54.175.144.27:3000");
+    driver.get("http://54.152.189.123:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".LoginButtons:nth-child(4)")).click();

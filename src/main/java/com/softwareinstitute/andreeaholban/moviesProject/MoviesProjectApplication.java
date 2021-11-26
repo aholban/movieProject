@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@CrossOrigin(origins = "http://54.175.144.27:3000")
+@CrossOrigin(origins = "http://54.152.189.123:3000")
 @RestController
 @SpringBootApplication
 @RequestMapping("/movies")
@@ -165,7 +165,7 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
+
 	@DeleteMapping("/deleteMovie/{id}")
 	public @ResponseBody String deleteMovie (@PathVariable int id, @RequestParam String username, @RequestParam String password){
 		String message = "";
@@ -181,7 +181,7 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
+
 	@DeleteMapping("/deleteGenre/{id}")
 	public @ResponseBody String deleteGenre (@PathVariable int id, @RequestParam String username, @RequestParam String password){
 		String message = "";
@@ -203,7 +203,7 @@ public class MoviesProjectApplication {
 		return message;
 	}
 
-	@CrossOrigin(origins = "http://localhost:3000")
+
 	@DeleteMapping("/deleteActor/{id}")
 	public @ResponseBody String deleteActor (@PathVariable int id, @RequestParam String username, @RequestParam String password){
 		String message = "";
@@ -226,7 +226,7 @@ public class MoviesProjectApplication {
 	}
 
 
-	@CrossOrigin(origins = "http://localhost:3000")
+
 	@PostMapping("/updateMovie/{id}")
 	public @ResponseBody String updateMovie (@PathVariable int id,
 											 @RequestParam String username, @RequestParam String password,
