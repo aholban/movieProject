@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://54.175.144.27:3000")
 @RestController
 @SpringBootApplication
 @RequestMapping("/movies")
