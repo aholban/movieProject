@@ -1,6 +1,6 @@
 package com.softwareinstitute.andreeaholban.moviesProject;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static com.softwareinstitute.andreeaholban.moviesProject.MoviesProjectApplication.*;
 
 @SpringBootTest
-class MoviesProjectApplicationTests {
+public class MoviesProjectApplicationTest {
 
 	@Autowired
 	private MovieRepository testRepository;
 
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }
