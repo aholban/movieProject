@@ -142,6 +142,7 @@
 						<include>**/*Test.java</include>
 						<include>**/CucumberRunner*.java</include>
 					</includes>
+					<testFailureIgnore>true</testFailureIgnore>
 				</configuration>
 			</plugin>
 			<plugin>
