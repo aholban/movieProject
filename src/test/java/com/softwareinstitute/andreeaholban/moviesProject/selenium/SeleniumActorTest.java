@@ -32,7 +32,7 @@ public class SeleniumActorTest {
   @Before
   public void setUp() {
     //WebDriverManager.chromedriver().setup();
-    System.setProperty("webdriver.chrome.driver", "/usr/bin/google-chrome");
+    System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
     ChromeOptions options = new ChromeOptions();
     options.addArguments("headless");
     options.addArguments("disable-gpu");
