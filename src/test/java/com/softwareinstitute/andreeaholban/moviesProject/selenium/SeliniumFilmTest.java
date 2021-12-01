@@ -35,6 +35,7 @@ public class SeliniumFilmTest {
     options.addArguments("headless");
     options.addArguments("disable-gpu");
     //WebDriverManager.chromedriver().setup();
+    //driver = new ChromeDriver();
     driver = new ChromeDriver(options);
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
@@ -45,7 +46,7 @@ public class SeliniumFilmTest {
   }
   @Test
   public void seeMovies() {
-    driver.get("http://54.152.189.123:3000/home");
+    driver.get("http://3.82.143.245:3000/home");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
     driver.findElement(By.cssSelector(".MoviesBox > .Header")).click();
@@ -74,7 +75,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void addDeleteMovie() {
-    driver.get("http://54.152.189.123:3000");
+    driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".LoginButtons:nth-child(4)")).click();
@@ -135,7 +136,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void rateMovie() {
-    driver.get("http://54.152.189.123:3000");
+    driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
@@ -147,7 +148,7 @@ public class SeliniumFilmTest {
     driver.findElement(By.linkText("Harry Potter")).click();
     driver.findElement(By.cssSelector(".MovieSubheader:nth-child(2) > .RateBox")).click();
     driver.findElement(By.cssSelector(".MovieSubheader:nth-child(2) > .RateBox")).sendKeys("7");
-    driver.findElement(By.cssSelector(".MovieSubheader:nth-child(2) > .MovieButtons")).click();
+    driver.findElement(By.cssSelector(".MovieSubheader:nth-child(2) > .RateButtons")).click();
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
@@ -160,7 +161,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void addDeleteGenre() {
-    driver.get("http://54.152.189.123:3000");
+    driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
@@ -236,7 +237,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void addDeleteActor() {
-    driver.get("http://54.152.189.123:3000");
+    driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
@@ -316,7 +317,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void updateMovie() {
-    driver.get("http://54.152.189.123:3000");
+    driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".LoginButtons:nth-child(4)")).click();
@@ -366,7 +367,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void searchMovie() {
-    driver.get("http://54.152.189.123:3000/");
+    driver.get("http://3.82.143.245:3000/");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".TextBox")).click();
     driver.findElement(By.cssSelector(".TextBox")).sendKeys("spider");
