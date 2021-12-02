@@ -365,20 +365,20 @@ public class SeliniumFilmTest {
     driver.close();
   }
 
-//  @Test
-//  public void searchMovie() {
-//    driver.get("http://3.93.172.228:3000");
-//    driver.manage().window().setSize(new Dimension(788, 824));
-//    driver.findElement(By.cssSelector(".TextBox")).click();
-//    driver.findElement(By.cssSelector(".TextBox")).sendKeys("spider");
-//    driver.findElement(By.cssSelector(".SearchButton")).click();
-//    try {
-//      Thread.sleep(1000);
-//    } catch (InterruptedException e) {
-//      e.printStackTrace();
-//    }
-//    driver.findElement(By.linkText("Spiderman: Homecoming")).click();
-//    driver.close();
-//  }
+  @Test
+  public void searchMovie() {
+    driver.get("http://3.93.172.228:3000");
+    driver.manage().window().setSize(new Dimension(788, 824));
+    driver.findElement(By.cssSelector(".TextBox")).click();
+    driver.findElement(By.cssSelector(".TextBox")).sendKeys("spider");
+    driver.findElement(By.cssSelector(".SearchButton")).click();
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    driver.findElement(By.linkText("Spiderman: Homecoming")).click();
+    driver.close();
+  }
 
 }
