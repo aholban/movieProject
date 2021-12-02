@@ -367,7 +367,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void searchMovie() {
-    driver.get("http://3.93.172.228gi:3000/");
+    driver.get("http://3.93.172.228:3000/");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".TextBox")).click();
     driver.findElement(By.cssSelector(".TextBox")).sendKeys("spider");
