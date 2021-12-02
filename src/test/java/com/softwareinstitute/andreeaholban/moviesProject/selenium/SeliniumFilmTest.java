@@ -46,7 +46,7 @@ public class SeliniumFilmTest {
   }
   @Test
   public void seeMovies() {
-    driver.get("http://3.82.143.245:3000/home");
+    driver.get("http://3.93.172.228:3000/home");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
     driver.findElement(By.cssSelector(".MoviesBox > .Header")).click();
@@ -75,7 +75,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void addDeleteMovie() {
-    driver.get("http://3.82.143.245:3000");
+    driver.get("http://3.93.172.228:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".LoginButtons:nth-child(4)")).click();
@@ -136,7 +136,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void rateMovie() {
-    driver.get("http://3.82.143.245:3000");
+    driver.get("http://3.93.172.228:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
@@ -161,7 +161,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void addDeleteGenre() {
-    driver.get("http://3.82.143.245:3000");
+    driver.get("http://3.93.172.228:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
@@ -237,7 +237,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void addDeleteActor() {
-    driver.get("http://3.82.143.245:3000");
+    driver.get("http://3.93.172.228:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".MoviesBox .Drop")).click();
@@ -317,7 +317,7 @@ public class SeliniumFilmTest {
 
   @Test
   public void updateMovie() {
-    driver.get("http://3.82.143.245:3000");
+    driver.get("http://3.93.172.228:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
     driver.findElement(By.cssSelector(".LoginButtons:nth-child(4)")).click();
