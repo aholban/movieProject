@@ -48,7 +48,7 @@ public class SeleniumActorTest {
   }
   @Test
   public void seleniumActor() {
-    driver.get("http://3.93.172.228:3000");
+    driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
 
