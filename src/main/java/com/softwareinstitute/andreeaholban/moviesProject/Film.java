@@ -1,6 +1,7 @@
 package com.softwareinstitute.andreeaholban.moviesProject;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.Set;
 
 @Entity
@@ -122,7 +123,8 @@ public class Film {
 
     public void updateRating(double new_rating){
         double updatedRating = (star_rating * no_ratings + new_rating)/(no_ratings+1);
-        this.star_rating = updatedRating;
+        DecimalFormat df = new DecimalFormat("#.##");
+        this.star_rating = Double.parseDouble(df.format(updatedRating));
         this.no_ratings = no_ratings + 1;
     }
 

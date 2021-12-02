@@ -51,6 +51,7 @@ public class SeleniumActorTest {
     driver.get("http://3.82.143.245:3000");
     driver.manage().window().setSize(new Dimension(788, 824));
     driver.findElement(By.cssSelector(".HomeButton")).click();
+
     driver.findElement(By.cssSelector(".LoginButtons:nth-child(4)")).click();
     driver.findElement(By.name("username")).click();
     driver.findElement(By.name("username")).sendKeys("admin");
@@ -73,6 +74,11 @@ public class SeleniumActorTest {
     driver.findElement(By.cssSelector("label:nth-child(2) > input")).sendKeys("Test");
     driver.findElement(By.cssSelector("label:nth-child(4) > input")).click();
     driver.findElement(By.cssSelector("label:nth-child(4) > input")).sendKeys("Selenium");
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     driver.findElement(By.cssSelector("input:nth-child(6)")).click();
     try {
       WebDriverWait wait = new WebDriverWait(driver, 10);
